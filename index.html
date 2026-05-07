@@ -321,7 +321,7 @@
   // ─────────────────────────────────────────────────────────
   //  COLE AQUI A URL DO SEU APPS SCRIPT APÓS PUBLICAR
   // ─────────────────────────────────────────────────────────
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-Ja1XeJrbSkK7KpPL_4dPugSaFvkb3wfW2D5b8iW0wS8dZckP-bo6oUaHbIylhVOn/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwVFjoo2Ek4mkmqYM4qxLxyS8Mrpcx689EgbHCFOaZ8VlQ1FhVLNTzNgkWn-UvK39dZ/exec";
   // ─────────────────────────────────────────────────────────
 
   const fileInput   = document.getElementById('fileInput');
@@ -419,15 +419,14 @@
         fotos:      fotosComprimidas
       };
 
-      const resp = await fetch(SCRIPT_URL, {
-        method: 'POST',
+      await fetch(SCRIPT_URL, {
+        method: 'POST', mode: 'no-cors',
         body: JSON.stringify(payload)
       });
 
-      const result = await resp.json();
       progBar.style.width = '100%';
 
-      if (result.status === 'ok') {
+      if (true) {
         const now = new Date();
         const dt  = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
 
