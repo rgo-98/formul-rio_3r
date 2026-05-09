@@ -287,11 +287,23 @@
         </div>
       </div>
       <div class="card-body">
-        <div class="upload-zone" id="uploadZone">
-          <input type="file" id="fileInput" accept="image/*" multiple capture="environment">
-          <div class="upload-icon">📷</div>
-          <div class="upload-title">Toque para fotografar</div>
-          <div class="upload-hint">Ou escolha da galeria — <span>múltiplas fotos</span></div>
+        <!-- Botões câmera e galeria -->
+        <input type="file" id="fileCamera"  accept="image/*" capture="environment" multiple style="display:none">
+        <input type="file" id="fileGallery" accept="image/jpeg,image/png,image/gif,image/webp,image/*" multiple style="display:none">
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <button type="button" onclick="document.getElementById('fileCamera').click()" style="
+            padding:18px 10px;background:#000080;color:#fff;border:none;border-radius:10px;
+            font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:0.5px;
+            cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+            📷 Tirar Foto
+          </button>
+          <button type="button" onclick="document.getElementById('fileGallery').click()" style="
+            padding:18px 10px;background:#fff;color:#000080;border:2px solid #000080;border-radius:10px;
+            font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:0.5px;
+            cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+            🖼️ Galeria
+          </button>
         </div>
         <div class="preview-grid" id="previewGrid"></div>
         <div class="photo-count" id="photoCount" style="display:none"></div>
@@ -330,14 +342,14 @@
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwcFuG2FgNurmj4NOWQ9nMRSCA-IGi297rd3CLhb6nisAEGfFEPc1xgba-fvB3i2M2q/exec";
   // ─────────────────────────────────────────────────────────
 
-  const fileInput   = document.getElementById('fileInput');
+  const fileCamera  = document.getElementById('fileCamera');
+  const fileGallery = document.getElementById('fileGallery');
   const previewGrid = document.getElementById('previewGrid');
   const photoCount  = document.getElementById('photoCount');
   let filesData = []; // array de base64
 
-  // Upload
-  fileInput.addEventListener('change', e => {
-    Array.from(e.target.files).forEach(f => {
+  function handleFiles(files) {
+    Array.from(files).forEach(f => {
       if (!f.type.startsWith('image/')) return;
       const r = new FileReader();
       r.onload = ev => {
@@ -346,7 +358,10 @@
       };
       r.readAsDataURL(f);
     });
-  });
+  }
+
+  fileCamera.addEventListener('change',  e => handleFiles(e.target.files));
+  fileGallery.addEventListener('change', e => handleFiles(e.target.files));
 
   function addPreview(src, idx) {
     const el = document.createElement('div');
