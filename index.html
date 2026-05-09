@@ -383,19 +383,6 @@
     photoCount.textContent = `${filesData.length} foto${filesData.length !== 1 ? 's' : ''} adicionada${filesData.length !== 1 ? 's' : ''}`;
   }
 
-  // Drag & drop
-  const zone = document.getElementById('uploadZone');
-  zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('drag'); });
-  zone.addEventListener('dragleave', ()  => zone.classList.remove('drag'));
-  zone.addEventListener('drop', e => {
-    e.preventDefault(); zone.classList.remove('drag');
-    Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')).forEach(f => {
-      const r = new FileReader();
-      r.onload = ev => { filesData.push(ev.target.result); addPreview(ev.target.result, filesData.length - 1); };
-      r.readAsDataURL(f);
-    });
-  });
-
   // Submit
   document.getElementById('mainForm').addEventListener('submit', async e => {
     e.preventDefault();
